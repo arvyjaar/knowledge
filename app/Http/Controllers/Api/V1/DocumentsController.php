@@ -7,13 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDocumentsRequest;
 use App\Http\Requests\Admin\UpdateDocumentsRequest;
-use App\Http\Controllers\Traits\FileUploadTrait;
-use Yajra\Datatables\Datatables;
 
 class DocumentsController extends Controller
 {
-    use FileUploadTrait;
-
     public function index()
     {
         return Document::all();
@@ -26,17 +22,17 @@ class DocumentsController extends Controller
 
     public function update(UpdateDocumentsRequest $request, $id)
     {
-        $request = $this->saveFiles($request);
         $document = Document::findOrFail($id);
         $document->update($request->all());
+        
 
         return $document;
     }
 
     public function store(StoreDocumentsRequest $request)
     {
-        $request = $this->saveFiles($request);
         $document = Document::create($request->all());
+        
 
         return $document;
     }

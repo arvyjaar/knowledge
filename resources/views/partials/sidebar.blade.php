@@ -13,6 +13,104 @@
             </li>
 
             
+            @can('document_access')
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-text"></i>
+                    <span class="title">@lang('quickadmin.documents.title')</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                
+                @can('document_access')
+                <li class="{{ $request->segment(2) == 'documents' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.documents.index') }}">
+                            <i class="fa fa-file-o"></i>
+                            <span class="title">
+                                @lang('quickadmin.document.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('doccategory_access')
+                <li class="{{ $request->segment(2) == 'doccategories' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.doccategories.index') }}">
+                            <i class="fa fa-archive"></i>
+                            <span class="title">
+                                @lang('quickadmin.doccategory.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('organisation_access')
+                <li class="{{ $request->segment(2) == 'organisations' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.organisations.index') }}">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="title">
+                                @lang('quickadmin.organisation.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                </ul>
+            </li>
+            @endcan
+            @can('faq_access')
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-question"></i>
+                    <span class="title">@lang('quickadmin.faq.title')</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                
+                @can('department_access')
+                <li class="{{ $request->segment(2) == 'departments' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.departments.index') }}">
+                            <i class="fa fa-flag"></i>
+                            <span class="title">
+                                @lang('quickadmin.department.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('category_access')
+                <li class="{{ $request->segment(2) == 'categories' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.categories.index') }}">
+                            <i class="fa fa-car"></i>
+                            <span class="title">
+                                @lang('quickadmin.category.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('question_access')
+                <li class="{{ $request->segment(2) == 'questions' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.questions.index') }}">
+                            <i class="fa fa-question"></i>
+                            <span class="title">
+                                @lang('quickadmin.question.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('comment_access')
+                <li class="{{ $request->segment(2) == 'comments' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.comments.index') }}">
+                            <i class="fa fa-comment"></i>
+                            <span class="title">
+                                @lang('quickadmin.comment.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                </ul>
+            </li>
+            @endcan
             @can('complaint_access')
             <li class="treeview">
                 <a href="#">
@@ -24,16 +122,6 @@
                 </a>
                 <ul class="treeview-menu">
                 
-                @can('appeal_access')
-                <li class="{{ $request->segment(2) == 'appeals' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.appeals.index') }}">
-                            <i class="fa fa-file-text-o"></i>
-                            <span class="title">
-                                @lang('quickadmin.appeal.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
                 @can('tag_access')
                 <li class="{{ $request->segment(2) == 'tags' ? 'active active-sub' : '' }}">
                         <a href="{{ route('admin.tags.index') }}">
@@ -64,6 +152,16 @@
                         </a>
                     </li>
                 @endcan
+                @can('appeal_access')
+                <li class="{{ $request->segment(2) == 'appeals' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.appeals.index') }}">
+                            <i class="fa fa-file-text-o"></i>
+                            <span class="title">
+                                @lang('quickadmin.appeal.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
                 @can('reason_access')
                 <li class="{{ $request->segment(2) == 'reasons' ? 'active active-sub' : '' }}">
                         <a href="{{ route('admin.reasons.index') }}">
@@ -80,104 +178,6 @@
                             <i class="fa fa-gavel"></i>
                             <span class="title">
                                 @lang('quickadmin.court-decision.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                </ul>
-            </li>
-            @endcan
-            @can('faq_access')
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-question"></i>
-                    <span class="title">@lang('quickadmin.faq.title')</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                
-                @can('question_access')
-                <li class="{{ $request->segment(2) == 'questions' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.questions.index') }}">
-                            <i class="fa fa-question"></i>
-                            <span class="title">
-                                @lang('quickadmin.question.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('category_access')
-                <li class="{{ $request->segment(2) == 'categories' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.categories.index') }}">
-                            <i class="fa fa-car"></i>
-                            <span class="title">
-                                @lang('quickadmin.category.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('department_access')
-                <li class="{{ $request->segment(2) == 'departments' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.departments.index') }}">
-                            <i class="fa fa-flag"></i>
-                            <span class="title">
-                                @lang('quickadmin.department.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('comment_access')
-                <li class="{{ $request->segment(2) == 'comments' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.comments.index') }}">
-                            <i class="fa fa-comment"></i>
-                            <span class="title">
-                                @lang('quickadmin.comment.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                </ul>
-            </li>
-            @endcan
-            @can('document_access')
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-file-text"></i>
-                    <span class="title">@lang('quickadmin.documents.title')</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                
-                @can('document_access')
-                <li class="{{ $request->segment(2) == 'documents' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.documents.index') }}">
-                            <i class="fa fa-file-text-o"></i>
-                            <span class="title">
-                                @lang('quickadmin.document.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('doccategory_access')
-                <li class="{{ $request->segment(2) == 'doccategories' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.doccategories.index') }}">
-                            <i class="fa fa-book"></i>
-                            <span class="title">
-                                @lang('quickadmin.doccategory.title')
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('organisation_access')
-                <li class="{{ $request->segment(2) == 'organisations' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.organisations.index') }}">
-                            <i class="fa fa-flag-o"></i>
-                            <span class="title">
-                                @lang('quickadmin.organisation.title')
                             </span>
                         </a>
                     </li>
@@ -227,7 +227,7 @@
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                 <a href="{{ route('auth.change_password') }}">
                     <i class="fa fa-key"></i>
-                    <span class="title">Change password</span>
+                    <span class="title">@lang('quickadmin.qa_change_password')</span>
                 </a>
             </li>
 

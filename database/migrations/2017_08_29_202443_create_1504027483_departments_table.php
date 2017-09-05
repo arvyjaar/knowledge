@@ -12,7 +12,7 @@ class Create1504027483DepartmentsTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('departments')) {
+        if(! Schema::hasTable('departments')) {
             Schema::create('departments', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('title')->nullable();

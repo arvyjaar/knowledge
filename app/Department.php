@@ -15,4 +15,6 @@ class Department extends Model
     use SoftDeletes;
 
     protected $fillable = ['title'];
+    
+    
 }

@@ -15,35 +15,46 @@ $(document).ready(function () {
         buttons: [
             {
                 extend: 'copy',
+                text: window.copyButtonTrans,
                 exportOptions: {
                     columns: ':visible'
                 }
             },
             {
                 extend: 'csv',
+                text: window.csvButtonTrans,
                 exportOptions: {
                     columns: ':visible'
                 }
             },
             {
                 extend: 'excel',
+                text: window.excelButtonTrans,
                 exportOptions: {
                     columns: ':visible'
                 }
             },
             {
                 extend: 'pdf',
+                text: window.pdfButtonTrans,
                 exportOptions: {
                     columns: ':visible'
                 }
             },
             {
                 extend: 'print',
+                text: window.printButtonTrans,
                 exportOptions: {
                     columns: ':visible'
                 }
             },
-            'colvis'
+            {
+                extend: 'colvis',
+                text: window.colvisButtonTrans,
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
         ]
     };
     $('.datatable').each(function () {
@@ -61,9 +72,11 @@ $(document).ready(function () {
         }
         $(this).dataTable(window.dtDefaultOptions);
     });
-    if (typeof window.route_mass_crud_entries_destroy != 'undefined') {
-        $('.datatable, .ajaxTable').siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
-    }
+    $(document).on( 'init.dt', function ( e, settings ) {
+        if (typeof window.route_mass_crud_entries_destroy != 'undefined') {
+            $('.datatable, .ajaxTable').siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">'+window.deleteButtonTrans+'</a>');
+        }
+    });
 
     $(document).on('click', '.js-delete-selected', function () {
         if (confirm('Are you sure')) {
@@ -196,7 +209,7 @@ function processAjaxTables() {
         }
         $(this).DataTable(window.dtDefaultOptions);
         if (typeof window.route_mass_crud_entries_destroy != 'undefined') {
-            $(this).siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
+            $(this).siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">'+window.deleteButtonTrans+'</a>');
         }
     });
 

@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Question;
-use App\Category;
-use App\Department;
-use App\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreQuestionsRequest;
@@ -22,13 +18,14 @@ class QuestionsController extends Controller
     /**
      * Display a listing of Question.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         if (! Gate::allows('question_access')) {
             return abort(401);
         }
+
 
         if (request('show_deleted') == 1) {
             if (! Gate::allows('question_delete')) {
@@ -45,7 +42,7 @@ class QuestionsController extends Controller
     /**
      * Show the form for creating new Question.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -53,8 +50,8 @@ class QuestionsController extends Controller
             return abort(401);
         }
         
-        $categories = Category::get()->pluck('category', 'id')->prepend('Please select', '');
-        $departments = Department::get()->pluck('title', 'id')->prepend('Please select', '');
+        $categories = \App\Category::get()->pluck('category', 'id')->prepend('Please select', '');
+        $departments = \App\Department::get()->pluck('title', 'id')->prepend('Please select', '');
 
         return view('admin.questions.create', compact('categories', 'departments'));
     }
@@ -62,8 +59,8 @@ class QuestionsController extends Controller
     /**
      * Store a newly created Question in storage.
      *
-     * @param  StoreQuestionsRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreQuestionsRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreQuestionsRequest $request)
     {
@@ -72,6 +69,7 @@ class QuestionsController extends Controller
         }
         $request = $this->saveFiles($request);
         $question = Question::create($request->all());
+
 
         foreach ($request->input('file_id', []) as $index => $id) {
             $model          = config('laravel-medialibrary.media_model');
@@ -83,11 +81,12 @@ class QuestionsController extends Controller
         return redirect()->route('admin.questions.index');
     }
 
+
     /**
      * Show the form for editing Question.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -95,8 +94,8 @@ class QuestionsController extends Controller
             return abort(401);
         }
         
-        $categories = Category::get()->pluck('category', 'id')->prepend('Please select', '');
-        $departments = Department::get()->pluck('title', 'id')->prepend('Please select', '');
+        $categories = \App\Category::get()->pluck('category', 'id')->prepend('Please select', '');
+        $departments = \App\Department::get()->pluck('title', 'id')->prepend('Please select', '');
 
         $question = Question::findOrFail($id);
 
@@ -106,9 +105,9 @@ class QuestionsController extends Controller
     /**
      * Update Question in storage.
      *
-     * @param  UpdateQuestionsRequest  $request
+     * @param  \App\Http\Requests\UpdateQuestionsRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateQuestionsRequest $request, $id)
     {
@@ -118,6 +117,7 @@ class QuestionsController extends Controller
         $request = $this->saveFiles($request);
         $question = Question::findOrFail($id);
         $question->update($request->all());
+
 
         $media = [];
         foreach ($request->input('file_id', []) as $index => $id) {
@@ -132,11 +132,12 @@ class QuestionsController extends Controller
         return redirect()->route('admin.questions.index');
     }
 
+
     /**
      * Display Question.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -144,19 +145,20 @@ class QuestionsController extends Controller
             return abort(401);
         }
         
-        $categories = Category::get()->pluck('category', 'id')->prepend('Please select', '');
-        $departments = Department::get()->pluck('title', 'id')->prepend('Please select', '');
-        $comments = Comment::where('question_id', $id)->get();
+        $categories = \App\Category::get()->pluck('category', 'id')->prepend('Please select', '');
+        $departments = \App\Department::get()->pluck('title', 'id')->prepend('Please select', '');$comments = \App\Comment::where('question_id', $id)->get();
+
         $question = Question::findOrFail($id);
 
         return view('admin.questions.show', compact('question', 'comments'));
     }
 
+
     /**
      * Remove Question from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -188,11 +190,12 @@ class QuestionsController extends Controller
         }
     }
 
+
     /**
      * Restore Question from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
@@ -209,7 +212,7 @@ class QuestionsController extends Controller
      * Permanently delete Question from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {

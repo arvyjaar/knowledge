@@ -51,4 +51,5 @@ class Question extends Model implements HasMedia
     {
         return $this->belongsTo(Department::class, 'department_id')->withTrashed();
     }
+    
 }

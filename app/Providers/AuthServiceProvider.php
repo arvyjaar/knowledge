@@ -35,23 +35,6 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1]);
         });
 
-        // Auth gates for: Roles
-        Gate::define('role_access', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('role_create', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('role_edit', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('role_view', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('role_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-
         // Auth gates for: Users
         Gate::define('user_access', function ($user) {
             return in_array($user->role_id, [1]);
@@ -254,6 +237,23 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1, 2, 3]);
         });
 
+        // Auth gates for: Doccategory
+        Gate::define('doccategory_access', function ($user) {
+            return in_array($user->role_id, [1, 3]);
+        });
+        Gate::define('doccategory_create', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('doccategory_edit', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('doccategory_view', function ($user) {
+            return in_array($user->role_id, [1, 3]);
+        });
+        Gate::define('doccategory_delete', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+
         // Auth gates for: Organisation
         Gate::define('organisation_access', function ($user) {
             return in_array($user->role_id, [1]);
@@ -271,26 +271,9 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1]);
         });
 
-        // Auth gates for: Doccategory
-        Gate::define('doccategory_access', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('doccategory_create', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('doccategory_edit', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('doccategory_view', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('doccategory_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-
         // Auth gates for: Document
         Gate::define('document_access', function ($user) {
-            return in_array($user->role_id, [1, 3]);
+            return in_array($user->role_id, [1, 2, 3]);
         });
         Gate::define('document_create', function ($user) {
             return in_array($user->role_id, [1, 3]);
@@ -299,10 +282,11 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1, 3]);
         });
         Gate::define('document_view', function ($user) {
-            return in_array($user->role_id, [1, 3]);
+            return in_array($user->role_id, [1, 2, 3]);
         });
         Gate::define('document_delete', function ($user) {
             return in_array($user->role_id, [1, 3]);
         });
+
     }
 }

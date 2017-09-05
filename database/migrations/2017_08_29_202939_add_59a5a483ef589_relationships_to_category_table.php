@@ -12,11 +12,12 @@ class Add59a5a483ef589RelationshipsToCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('categories', function(Blueprint $table) {
             if (!Schema::hasColumn('categories', 'department_id')) {
                 $table->integer('department_id')->unsigned()->nullable();
                 $table->foreign('department_id', '69428_59a5a482ec599')->references('id')->on('departments')->onDelete('cascade');
-            }
+                }
+                
         });
     }
 
@@ -27,7 +28,8 @@ class Add59a5a483ef589RelationshipsToCategoryTable extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('categories', function(Blueprint $table) {
+            
         });
     }
 }

@@ -3,28 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Department;
-use App\Category;
-use App\Question;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDepartmentsRequest;
 use App\Http\Requests\Admin\UpdateDepartmentsRequest;
-use Yajra\Datatables\Datatables;
 
 class DepartmentsController extends Controller
 {
     /**
      * Display a listing of Department.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         if (! Gate::allows('department_access')) {
             return abort(401);
         }
+
 
         if (request('show_deleted') == 1) {
             if (! Gate::allows('department_delete')) {
@@ -41,7 +38,7 @@ class DepartmentsController extends Controller
     /**
      * Show the form for creating new Department.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -54,8 +51,8 @@ class DepartmentsController extends Controller
     /**
      * Store a newly created Department in storage.
      *
-     * @param  StoreDepartmentsRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreDepartmentsRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreDepartmentsRequest $request)
     {
@@ -64,14 +61,17 @@ class DepartmentsController extends Controller
         }
         $department = Department::create($request->all());
 
+
+
         return redirect()->route('admin.departments.index');
     }
+
 
     /**
      * Show the form for editing Department.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -86,9 +86,9 @@ class DepartmentsController extends Controller
     /**
      * Update Department in storage.
      *
-     * @param  UpdateDepartmentsRequest  $request
+     * @param  \App\Http\Requests\UpdateDepartmentsRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateDepartmentsRequest $request, $id)
     {
@@ -98,33 +98,36 @@ class DepartmentsController extends Controller
         $department = Department::findOrFail($id);
         $department->update($request->all());
 
+
+
         return redirect()->route('admin.departments.index');
     }
+
 
     /**
      * Display Department.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         if (! Gate::allows('department_view')) {
             return abort(401);
         }
-        $categories = Category::where('department_id', $id)->get();
-        $questions = Question::where('department_id', $id)->get();
+        $categories = \App\Category::where('department_id', $id)->get();$questions = \App\Question::where('department_id', $id)->get();$documents = \App\Document::where('department_id', $id)->get();
 
         $department = Department::findOrFail($id);
 
-        return view('admin.departments.show', compact('department', 'categories', 'questions'));
+        return view('admin.departments.show', compact('department', 'categories', 'questions', 'documents'));
     }
+
 
     /**
      * Remove Department from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -156,11 +159,12 @@ class DepartmentsController extends Controller
         }
     }
 
+
     /**
      * Restore Department from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
@@ -177,7 +181,7 @@ class DepartmentsController extends Controller
      * Permanently delete Department from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {

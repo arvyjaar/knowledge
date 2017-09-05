@@ -12,12 +12,13 @@ class Create1503940641CourtDecisionsTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('court_decisions')) {
+        if(! Schema::hasTable('court_decisions')) {
             Schema::create('court_decisions', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('title')->nullable();
                 
                 $table->timestamps();
+                
             });
         }
     }

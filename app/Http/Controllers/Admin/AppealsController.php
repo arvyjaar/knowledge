@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Appeal;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -22,6 +21,7 @@ class AppealsController extends Controller
         if (! Gate::allows('appeal_access')) {
             return abort(401);
         }
+
 
         if (request('show_deleted') == 1) {
             if (! Gate::allows('appeal_delete')) {
@@ -58,8 +58,8 @@ class AppealsController extends Controller
     /**
      * Store a newly created Appeal in storage.
      *
-     * @param  StoreAppealsRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreAppealsRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreAppealsRequest $request)
     {
@@ -80,7 +80,7 @@ class AppealsController extends Controller
      * Show the form for editing Appeal.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -89,18 +89,22 @@ class AppealsController extends Controller
         }
         
         $tags = \App\Tag::get()->pluck('title', 'id');
+
         $reasons = \App\Reason::get()->pluck('title', 'id');
+
         $court_decisions = \App\CourtDecision::get()->pluck('title', 'id')->prepend('Please select', '');
+
         $appeal = Appeal::findOrFail($id);
+
         return view('admin.appeals.edit', compact('appeal', 'tags', 'reasons', 'court_decisions'));
     }
 
     /**
      * Update Appeal in storage.
      *
-     * @param  UpdateAppealsRequest  $request
+     * @param  \App\Http\Requests\UpdateAppealsRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateAppealsRequest $request, $id)
     {
@@ -112,14 +116,17 @@ class AppealsController extends Controller
         $appeal->tags()->sync(array_filter((array)$request->input('tags')));
         $appeal->reason()->sync(array_filter((array)$request->input('reason')));
 
+
+
         return redirect()->route('admin.appeals.index');
     }
+
 
     /**
      * Display Appeal.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -131,11 +138,12 @@ class AppealsController extends Controller
         return view('admin.appeals.show', compact('appeal'));
     }
 
+
     /**
      * Remove Appeal from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -167,11 +175,12 @@ class AppealsController extends Controller
         }
     }
 
+
     /**
      * Restore Appeal from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
@@ -188,7 +197,7 @@ class AppealsController extends Controller
      * Permanently delete Appeal from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {

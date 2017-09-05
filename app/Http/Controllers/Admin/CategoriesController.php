@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
-use App\Department;
-use App\Question;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -18,13 +15,14 @@ class CategoriesController extends Controller
     /**
      * Display a listing of Category.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         if (! Gate::allows('category_access')) {
             return abort(401);
         }
+
 
         if (request('show_deleted') == 1) {
             if (! Gate::allows('category_delete')) {
@@ -41,7 +39,7 @@ class CategoriesController extends Controller
     /**
      * Show the form for creating new Category.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -49,7 +47,7 @@ class CategoriesController extends Controller
             return abort(401);
         }
         
-        $departments = Department::get()->pluck('title', 'id')->prepend('Please select', '');
+        $departments = \App\Department::get()->pluck('title', 'id')->prepend('Please select', '');
 
         return view('admin.categories.create', compact('departments'));
     }
@@ -57,8 +55,8 @@ class CategoriesController extends Controller
     /**
      * Store a newly created Category in storage.
      *
-     * @param  StoreCategoriesRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreCategoriesRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreCategoriesRequest $request)
     {
@@ -67,14 +65,17 @@ class CategoriesController extends Controller
         }
         $category = Category::create($request->all());
 
+
+
         return redirect()->route('admin.categories.index');
     }
+
 
     /**
      * Show the form for editing Category.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -82,7 +83,8 @@ class CategoriesController extends Controller
             return abort(401);
         }
         
-        $departments = Department::get()->pluck('title', 'id')->prepend('Please select', '');
+        $departments = \App\Department::get()->pluck('title', 'id')->prepend('Please select', '');
+
         $category = Category::findOrFail($id);
 
         return view('admin.categories.edit', compact('category', 'departments'));
@@ -91,9 +93,9 @@ class CategoriesController extends Controller
     /**
      * Update Category in storage.
      *
-     * @param  UpdateCategoriesRequest  $request
+     * @param  \App\Http\Requests\UpdateCategoriesRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateCategoriesRequest $request, $id)
     {
@@ -103,14 +105,17 @@ class CategoriesController extends Controller
         $category = Category::findOrFail($id);
         $category->update($request->all());
 
+
+
         return redirect()->route('admin.categories.index');
     }
+
 
     /**
      * Display Category.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -118,19 +123,19 @@ class CategoriesController extends Controller
             return abort(401);
         }
         
-        $departments = Department::get()->pluck('title', 'id')->prepend('Please select', '');
-        $questions = Question::where('category_id', $id)->get();
+        $departments = \App\Department::get()->pluck('title', 'id')->prepend('Please select', '');$questions = \App\Question::where('category_id', $id)->get();
 
         $category = Category::findOrFail($id);
 
         return view('admin.categories.show', compact('category', 'questions'));
     }
 
+
     /**
      * Remove Category from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -162,11 +167,12 @@ class CategoriesController extends Controller
         }
     }
 
+
     /**
      * Restore Category from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
@@ -183,7 +189,7 @@ class CategoriesController extends Controller
      * Permanently delete Category from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {

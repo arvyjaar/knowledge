@@ -3,21 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Doccategory;
-use App\Document;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDoccategoriesRequest;
 use App\Http\Requests\Admin\UpdateDoccategoriesRequest;
-use Yajra\Datatables\Datatables;
 
 class DoccategoriesController extends Controller
 {
     /**
      * Display a listing of Doccategory.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -25,46 +22,23 @@ class DoccategoriesController extends Controller
             return abort(401);
         }
 
-        if (request()->ajax()) {
-            $query = Doccategory::query();
-            $template = 'actionsTemplate';
-            if (request('show_deleted') == 1) {
-                if (! Gate::allows('doccategory_delete')) {
-                    return abort(401);
-                }
-                $query->onlyTrashed();
-                $template = 'restoreTemplate';
+
+        if (request('show_deleted') == 1) {
+            if (! Gate::allows('doccategory_delete')) {
+                return abort(401);
             }
-            $table = Datatables::of($query);
-
-            $table->setRowAttr([
-                'data-entry-id' => '{{$id}}',
-            ]);
-            $table->addColumn('massDelete', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-            $table->editColumn('actions', function ($row) use ($template) {
-                $gateKey  = 'doccategory_';
-                $routeKey = 'admin.doccategories';
-
-                return view($template, compact('row', 'gateKey', 'routeKey'));
-            });
-            $table->editColumn('title', function ($row) {
-                return $row->title ? $row->title : '';
-            });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
-            });
-
-            return $table->make(true);
+            $doccategories = Doccategory::onlyTrashed()->get();
+        } else {
+            $doccategories = Doccategory::all();
         }
 
-        return view('admin.doccategories.index');
+        return view('admin.doccategories.index', compact('doccategories'));
     }
 
     /**
      * Show the form for creating new Doccategory.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -77,8 +51,8 @@ class DoccategoriesController extends Controller
     /**
      * Store a newly created Doccategory in storage.
      *
-     * @param  StoreDoccategoriesRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreDoccategoriesRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreDoccategoriesRequest $request)
     {
@@ -87,14 +61,17 @@ class DoccategoriesController extends Controller
         }
         $doccategory = Doccategory::create($request->all());
 
+
+
         return redirect()->route('admin.doccategories.index');
     }
+
 
     /**
      * Show the form for editing Doccategory.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -109,9 +86,9 @@ class DoccategoriesController extends Controller
     /**
      * Update Doccategory in storage.
      *
-     * @param  UpdateDoccategoriesRequest  $request
+     * @param  \App\Http\Requests\UpdateDoccategoriesRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateDoccategoriesRequest $request, $id)
     {
@@ -121,31 +98,36 @@ class DoccategoriesController extends Controller
         $doccategory = Doccategory::findOrFail($id);
         $doccategory->update($request->all());
 
+
+
         return redirect()->route('admin.doccategories.index');
     }
+
 
     /**
      * Display Doccategory.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         if (! Gate::allows('doccategory_view')) {
             return abort(401);
         }
-        $documents = Document::where('category_id', $id)->get();
+        $documents = \App\Document::where('category_id', $id)->get();
+
         $doccategory = Doccategory::findOrFail($id);
 
         return view('admin.doccategories.show', compact('doccategory', 'documents'));
     }
 
+
     /**
      * Remove Doccategory from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -177,11 +159,12 @@ class DoccategoriesController extends Controller
         }
     }
 
+
     /**
      * Restore Doccategory from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
@@ -198,7 +181,7 @@ class DoccategoriesController extends Controller
      * Permanently delete Doccategory from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {

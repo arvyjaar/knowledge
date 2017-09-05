@@ -12,12 +12,13 @@ class Create1503938294ReasonsTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('reasons')) {
+        if(! Schema::hasTable('reasons')) {
             Schema::create('reasons', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('title');
                 
                 $table->timestamps();
+                
             });
         }
     }

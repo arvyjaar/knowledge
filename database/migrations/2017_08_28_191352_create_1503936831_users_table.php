@@ -12,7 +12,7 @@ class Create1503936831UsersTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('users')) {
+        if(! Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
@@ -21,6 +21,7 @@ class Create1503936831UsersTable extends Migration
                 $table->string('remember_token')->nullable();
                 
                 $table->timestamps();
+                
             });
         }
     }

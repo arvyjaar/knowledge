@@ -26,10 +26,10 @@ class StoreDocumentsRequest extends FormRequest
             'nr' => 'required',
             'title' => 'required',
             'signed' => 'required|date_format:'.config('app.date_format'),
-            'valid_from' => 'nullable|date_format:'.config('app.date_format'),
+            'valid_from' => 'required|date_format:'.config('app.date_format'),
             'valid_till' => 'nullable|date_format:'.config('app.date_format'),
-            'organisation_id' => 'required',
             'category_id' => 'required',
+            'organisation_id' => 'required',
         ];
     }
 }

@@ -12,11 +12,12 @@ class Add59a5af976573bRelationshipsToAppealTable extends Migration
      */
     public function up()
     {
-        Schema::table('appeals', function (Blueprint $table) {
+        Schema::table('appeals', function(Blueprint $table) {
             if (!Schema::hasColumn('appeals', 'court_decision_id')) {
                 $table->integer('court_decision_id')->unsigned()->nullable();
                 $table->foreign('court_decision_id', '69110_59a45091f3832')->references('id')->on('court_decisions')->onDelete('cascade');
-            }
+                }
+                
         });
     }
 
@@ -27,7 +28,8 @@ class Add59a5af976573bRelationshipsToAppealTable extends Migration
      */
     public function down()
     {
-        Schema::table('appeals', function (Blueprint $table) {
+        Schema::table('appeals', function(Blueprint $table) {
+            
         });
     }
 }

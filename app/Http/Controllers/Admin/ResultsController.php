@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Result;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreResultsRequest;
@@ -15,14 +14,16 @@ class ResultsController extends Controller
     /**
      * Display a listing of Result.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         if (! Gate::allows('result_access')) {
             return abort(401);
         }
-        $results = Result::all();
+
+
+                $results = Result::all();
 
         return view('admin.results.index', compact('results'));
     }
@@ -30,7 +31,7 @@ class ResultsController extends Controller
     /**
      * Show the form for creating new Result.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -43,8 +44,8 @@ class ResultsController extends Controller
     /**
      * Store a newly created Result in storage.
      *
-     * @param  StoreResultsRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreResultsRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreResultsRequest $request)
     {
@@ -53,14 +54,17 @@ class ResultsController extends Controller
         }
         $result = Result::create($request->all());
 
+
+
         return redirect()->route('admin.results.index');
     }
+
 
     /**
      * Show the form for editing Result.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -75,9 +79,9 @@ class ResultsController extends Controller
     /**
      * Update Result in storage.
      *
-     * @param  UpdateResultsRequest  $request
+     * @param  \App\Http\Requests\UpdateResultsRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateResultsRequest $request, $id)
     {
@@ -87,14 +91,17 @@ class ResultsController extends Controller
         $result = Result::findOrFail($id);
         $result->update($request->all());
 
+
+
         return redirect()->route('admin.results.index');
     }
+
 
     /**
      * Display Result.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -106,11 +113,12 @@ class ResultsController extends Controller
         return view('admin.results.show', compact('result'));
     }
 
+
     /**
      * Remove Result from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -141,4 +149,5 @@ class ResultsController extends Controller
             }
         }
     }
+
 }

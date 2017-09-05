@@ -16,4 +16,6 @@ class Doccategory extends Model
     use SoftDeletes;
 
     protected $fillable = ['title', 'description'];
+    
+    
 }

@@ -12,11 +12,12 @@ class Add59a44141bb165RelationshipsToUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function(Blueprint $table) {
             if (!Schema::hasColumn('users', 'role_id')) {
                 $table->integer('role_id')->unsigned()->nullable();
                 $table->foreign('role_id', '69097_59a44140578d6')->references('id')->on('roles')->onDelete('cascade');
-            }
+                }
+                
         });
     }
 
@@ -27,7 +28,8 @@ class Add59a44141bb165RelationshipsToUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function(Blueprint $table) {
+            
         });
     }
 }

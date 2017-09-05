@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Reason;
-use App\Appeal;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreReasonsRequest;
@@ -16,7 +14,7 @@ class ReasonsController extends Controller
     /**
      * Display a listing of Reason.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -24,7 +22,8 @@ class ReasonsController extends Controller
             return abort(401);
         }
 
-        $reasons = Reason::all();
+
+                $reasons = Reason::all();
 
         return view('admin.reasons.index', compact('reasons'));
     }
@@ -32,7 +31,7 @@ class ReasonsController extends Controller
     /**
      * Show the form for creating new Reason.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -45,8 +44,8 @@ class ReasonsController extends Controller
     /**
      * Store a newly created Reason in storage.
      *
-     * @param  StoreReasonsRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreReasonsRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreReasonsRequest $request)
     {
@@ -55,14 +54,17 @@ class ReasonsController extends Controller
         }
         $reason = Reason::create($request->all());
 
+
+
         return redirect()->route('admin.reasons.index');
     }
+
 
     /**
      * Show the form for editing Reason.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -77,9 +79,9 @@ class ReasonsController extends Controller
     /**
      * Update Reason in storage.
      *
-     * @param  UpdateReasonsRequest  $request
+     * @param  \App\Http\Requests\UpdateReasonsRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateReasonsRequest $request, $id)
     {
@@ -89,36 +91,39 @@ class ReasonsController extends Controller
         $reason = Reason::findOrFail($id);
         $reason->update($request->all());
 
+
+
         return redirect()->route('admin.reasons.index');
     }
+
 
     /**
      * Display Reason.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         if (! Gate::allows('reason_view')) {
             return abort(401);
         }
-        $appeals = Appeal::whereHas('reason',
+        $appeals = \App\Appeal::whereHas('reason',
                     function ($query) use ($id) {
                         $query->where('id', $id);
-                    }
-        )->get();
+                    })->get();
 
         $reason = Reason::findOrFail($id);
 
         return view('admin.reasons.show', compact('reason', 'appeals'));
     }
 
+
     /**
      * Remove Reason from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -149,4 +154,5 @@ class ReasonsController extends Controller
             }
         }
     }
+
 }

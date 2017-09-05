@@ -12,4 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class CourtDecision extends Model
 {
     protected $fillable = ['title'];
+    
+    
 }

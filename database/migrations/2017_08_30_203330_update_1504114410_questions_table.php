@@ -13,13 +13,15 @@ class Update1504114410QuestionsTable extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            if (!Schema::hasColumn('questions', 'approved')) {
+            
+if (!Schema::hasColumn('questions', 'approved')) {
                 $table->tinyInteger('approved')->nullable()->default(0);
-            }
-            if (!Schema::hasColumn('questions', 'author')) {
+                }
+if (!Schema::hasColumn('questions', 'author')) {
                 $table->string('author')->nullable();
-            }
+                }
         });
+
     }
 
     /**
@@ -32,6 +34,8 @@ class Update1504114410QuestionsTable extends Migration
         Schema::table('questions', function (Blueprint $table) {
             $table->dropColumn('approved');
             $table->dropColumn('author');
+            
         });
+
     }
 }

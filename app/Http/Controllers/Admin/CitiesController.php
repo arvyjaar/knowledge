@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\City;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -23,7 +22,8 @@ class CitiesController extends Controller
             return abort(401);
         }
 
-        $cities = City::all();
+
+                $cities = City::all();
 
         return view('admin.cities.index', compact('cities'));
     }
@@ -31,7 +31,7 @@ class CitiesController extends Controller
     /**
      * Show the form for creating new City.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -44,8 +44,8 @@ class CitiesController extends Controller
     /**
      * Store a newly created City in storage.
      *
-     * @param  StoreCitiesRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreCitiesRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreCitiesRequest $request)
     {
@@ -54,14 +54,17 @@ class CitiesController extends Controller
         }
         $city = City::create($request->all());
 
+
+
         return redirect()->route('admin.cities.index');
     }
+
 
     /**
      * Show the form for editing City.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -76,9 +79,9 @@ class CitiesController extends Controller
     /**
      * Update City in storage.
      *
-     * @param  UpdateCitiesRequest  $request
+     * @param  \App\Http\Requests\UpdateCitiesRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateCitiesRequest $request, $id)
     {
@@ -88,14 +91,17 @@ class CitiesController extends Controller
         $city = City::findOrFail($id);
         $city->update($request->all());
 
+
+
         return redirect()->route('admin.cities.index');
     }
+
 
     /**
      * Display City.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -107,11 +113,12 @@ class CitiesController extends Controller
         return view('admin.cities.show', compact('city'));
     }
 
+
     /**
      * Remove City from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -142,4 +149,5 @@ class CitiesController extends Controller
             }
         }
     }
+
 }

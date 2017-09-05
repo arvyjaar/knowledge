@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">{{ ucfirst(config('app.name')) }} Login</div>
+                <div class="panel-heading">{{ ucfirst(config('app.name')) }} @lang('quickadmin.qa_login')</div>
                 <div class="panel-body">
                     
                     @if (count($errors) > 0)
@@ -28,7 +28,7 @@
                                value="{{ csrf_token() }}">
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Email</label>
+                            <label class="col-md-4 control-label">@lang('quickadmin.qa_email')</label>
 
                             <div class="col-md-6">
                                 <input type="email"
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
+                            <label class="col-md-4 control-label">@lang('quickadmin.qa_password')</label>
 
                             <div class="col-md-6">
                                 <input type="password"
@@ -50,7 +50,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <a href="{{ route('auth.password.reset') }}">Forgot your password?</a>
+                                <a href="{{ route('auth.password.reset') }}">@lang('quickadmin.qa_forgot_password')</a>
                             </div>
                         </div>
 
@@ -59,7 +59,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <label>
                                     <input type="checkbox"
-                                           name="remember"> Remember me
+                                           name="remember"> @lang('quickadmin.qa_remember_me')
                                 </label>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                 <button type="submit"
                                         class="btn btn-primary"
                                         style="margin-right: 15px;">
-                                    Login
+                                    @lang('quickadmin.qa_login')
                                 </button>
                             </div>
                         </div>

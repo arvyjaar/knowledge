@@ -26,7 +26,7 @@
         </div>
 
         <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped ajaxTable @can('doccategory_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+            <table class="table table-bordered table-striped {{ count($doccategories) > 0 ? 'datatable' : '' }} @can('doccategory_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
                     <tr>
                         @can('doccategory_delete')
@@ -42,6 +42,65 @@
                         @endif
                     </tr>
                 </thead>
+                
+                <tbody>
+                    @if (count($doccategories) > 0)
+                        @foreach ($doccategories as $doccategory)
+                            <tr data-entry-id="{{ $doccategory->id }}">
+                                @can('doccategory_delete')
+                                    @if ( request('show_deleted') != 1 )<td></td>@endif
+                                @endcan
+
+                                <td field-key='title'>{{ $doccategory->title }}</td>
+                                <td field-key='description'>{!! $doccategory->description !!}</td>
+                                @if( request('show_deleted') == 1 )
+                                <td>
+                                    @can('doccategory_delete')
+                                                                        {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'POST',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.doccategories.restore', $doccategory->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_restore'), array('class' => 'btn btn-xs btn-success')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                                    @can('doccategory_delete')
+                                                                        {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.doccategories.perma_del', $doccategory->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                                </td>
+                                @else
+                                <td>
+                                    @can('doccategory_view')
+                                    <a href="{{ route('admin.doccategories.show',[$doccategory->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
+                                    @endcan
+                                    @can('doccategory_edit')
+                                    <a href="{{ route('admin.doccategories.edit',[$doccategory->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
+                                    @endcan
+                                    @can('doccategory_delete')
+{!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.doccategories.destroy', $doccategory->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                    @endcan
+                                </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="7">@lang('quickadmin.qa_no_entries_in_table')</td>
+                        </tr>
+                    @endif
+                </tbody>
             </table>
         </div>
     </div>
@@ -52,20 +111,6 @@
         @can('doccategory_delete')
             @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.doccategories.mass_destroy') }}'; @endif
         @endcan
-        $(document).ready(function () {
-            window.dtDefaultOptions.ajax = '{!! route('admin.doccategories.index') !!}?show_deleted={{ request('show_deleted') }}';
-            window.dtDefaultOptions.columns = [
-                @can('doccategory_delete')
-                @if ( request('show_deleted') != 1 )
-                    {data: 'massDelete', name: 'id', searchable: false, sortable: false},
-                @endif
-                @endcan
-                {data: 'title', name: 'title'},
-                {data: 'description', name: 'description'},
-                
-                {data: 'actions', name: 'actions', searchable: false, sortable: false}
-            ];
-            processAjaxTables();
-        });
+
     </script>
 @endsection

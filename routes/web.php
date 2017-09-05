@@ -1,7 +1,5 @@
 <?php
-Route::get('/', function () {
-    return redirect('/admin/home');
-});
+Route::get('/', function () { return redirect('/admin/home'); });
 
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
@@ -55,18 +53,20 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::post('comments_mass_destroy', ['uses' => 'Admin\CommentsController@massDestroy', 'as' => 'comments.mass_destroy']);
     Route::post('comments_restore/{id}', ['uses' => 'Admin\CommentsController@restore', 'as' => 'comments.restore']);
     Route::delete('comments_perma_del/{id}', ['uses' => 'Admin\CommentsController@perma_del', 'as' => 'comments.perma_del']);
-    Route::resource('organisations', 'Admin\OrganisationsController');
-    Route::post('organisations_mass_destroy', ['uses' => 'Admin\OrganisationsController@massDestroy', 'as' => 'organisations.mass_destroy']);
-    Route::post('organisations_restore/{id}', ['uses' => 'Admin\OrganisationsController@restore', 'as' => 'organisations.restore']);
-    Route::delete('organisations_perma_del/{id}', ['uses' => 'Admin\OrganisationsController@perma_del', 'as' => 'organisations.perma_del']);
     Route::resource('doccategories', 'Admin\DoccategoriesController');
     Route::post('doccategories_mass_destroy', ['uses' => 'Admin\DoccategoriesController@massDestroy', 'as' => 'doccategories.mass_destroy']);
     Route::post('doccategories_restore/{id}', ['uses' => 'Admin\DoccategoriesController@restore', 'as' => 'doccategories.restore']);
     Route::delete('doccategories_perma_del/{id}', ['uses' => 'Admin\DoccategoriesController@perma_del', 'as' => 'doccategories.perma_del']);
+    Route::resource('organisations', 'Admin\OrganisationsController');
+    Route::post('organisations_mass_destroy', ['uses' => 'Admin\OrganisationsController@massDestroy', 'as' => 'organisations.mass_destroy']);
+    Route::post('organisations_restore/{id}', ['uses' => 'Admin\OrganisationsController@restore', 'as' => 'organisations.restore']);
+    Route::delete('organisations_perma_del/{id}', ['uses' => 'Admin\OrganisationsController@perma_del', 'as' => 'organisations.perma_del']);
     Route::resource('documents', 'Admin\DocumentsController');
     Route::post('documents_mass_destroy', ['uses' => 'Admin\DocumentsController@massDestroy', 'as' => 'documents.mass_destroy']);
     Route::post('documents_restore/{id}', ['uses' => 'Admin\DocumentsController@restore', 'as' => 'documents.restore']);
     Route::delete('documents_perma_del/{id}', ['uses' => 'Admin\DocumentsController@perma_del', 'as' => 'documents.perma_del']);
     Route::post('/spatie/media/upload', 'Admin\SpatieMediaController@create')->name('media.upload');
     Route::post('/spatie/media/remove', 'Admin\SpatieMediaController@destroy')->name('media.remove');
+
+
 });

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME'),
+    'name' => 'Appeals',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +182,6 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class,
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
         
@@ -251,5 +250,7 @@ return [
         'Html'         => Collective\Html\HtmlFacade::class,
         
     ],
+
+    
 
 ];

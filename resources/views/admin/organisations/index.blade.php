@@ -26,7 +26,7 @@
         </div>
 
         <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped ajaxTable @can('organisation_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+            <table class="table table-bordered table-striped {{ count($organisations) > 0 ? 'datatable' : '' }} @can('organisation_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
                     <tr>
                         @can('organisation_delete')
@@ -41,6 +41,64 @@
                         @endif
                     </tr>
                 </thead>
+                
+                <tbody>
+                    @if (count($organisations) > 0)
+                        @foreach ($organisations as $organisation)
+                            <tr data-entry-id="{{ $organisation->id }}">
+                                @can('organisation_delete')
+                                    @if ( request('show_deleted') != 1 )<td></td>@endif
+                                @endcan
+
+                                <td field-key='title'>{{ $organisation->title }}</td>
+                                @if( request('show_deleted') == 1 )
+                                <td>
+                                    @can('organisation_delete')
+                                                                        {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'POST',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.organisations.restore', $organisation->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_restore'), array('class' => 'btn btn-xs btn-success')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                                    @can('organisation_delete')
+                                                                        {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.organisations.perma_del', $organisation->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                                </td>
+                                @else
+                                <td>
+                                    @can('organisation_view')
+                                    <a href="{{ route('admin.organisations.show',[$organisation->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
+                                    @endcan
+                                    @can('organisation_edit')
+                                    <a href="{{ route('admin.organisations.edit',[$organisation->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
+                                    @endcan
+                                    @can('organisation_delete')
+{!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.organisations.destroy', $organisation->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                    @endcan
+                                </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6">@lang('quickadmin.qa_no_entries_in_table')</td>
+                        </tr>
+                    @endif
+                </tbody>
             </table>
         </div>
     </div>
@@ -51,19 +109,6 @@
         @can('organisation_delete')
             @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.organisations.mass_destroy') }}'; @endif
         @endcan
-        $(document).ready(function () {
-            window.dtDefaultOptions.ajax = '{!! route('admin.organisations.index') !!}?show_deleted={{ request('show_deleted') }}';
-            window.dtDefaultOptions.columns = [
-                @can('organisation_delete')
-                @if ( request('show_deleted') != 1 )
-                    {data: 'massDelete', name: 'id', searchable: false, sortable: false},
-                @endif
-                @endcan
-                {data: 'title', name: 'title'},
-                
-                {data: 'actions', name: 'actions', searchable: false, sortable: false}
-            ];
-            processAjaxTables();
-        });
+
     </script>
 @endsection

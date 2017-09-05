@@ -24,6 +24,7 @@ class AppealsController extends Controller
     {
         $appeal = Appeal::findOrFail($id);
         $appeal->update($request->all());
+        
 
         return $appeal;
     }
@@ -31,6 +32,7 @@ class AppealsController extends Controller
     public function store(StoreAppealsRequest $request)
     {
         $appeal = Appeal::create($request->all());
+        
 
         return $appeal;
     }

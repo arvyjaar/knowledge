@@ -29,6 +29,7 @@ class QuestionsController extends Controller
         $request = $this->saveFiles($request);
         $question = Question::findOrFail($id);
         $question->update($request->all());
+        
 
         return $question;
     }
@@ -37,6 +38,7 @@ class QuestionsController extends Controller
     {
         $request = $this->saveFiles($request);
         $question = Question::create($request->all());
+        
 
         return $question;
     }
@@ -45,7 +47,6 @@ class QuestionsController extends Controller
     {
         $question = Question::findOrFail($id);
         $question->delete();
-
         return '';
     }
 }

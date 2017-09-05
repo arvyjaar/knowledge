@@ -4,8 +4,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 /**
  * Class Document
@@ -13,18 +11,20 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
  * @package App
  * @property string $nr
  * @property text $title
+ * @property text $description
  * @property string $signed
  * @property string $valid_from
  * @property string $valid_till
- * @property string $organisation
  * @property string $category
+ * @property string $organisation
+ * @property string $department
  * @property string $changed
 */
-class Document extends Model implements HasMedia
+class Document extends Model
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes;
 
-    protected $fillable = ['nr', 'title', 'signed', 'valid_from', 'valid_till', 'organisation_id', 'category_id', 'changed_id'];
+    protected $fillable = ['nr', 'title', 'description', 'signed', 'valid_from', 'valid_till', 'category_id', 'organisation_id', 'department_id', 'changed_id'];
     
 
     /**
@@ -121,6 +121,15 @@ class Document extends Model implements HasMedia
      * Set to null if empty
      * @param $input
      */
+    public function setCategoryIdAttribute($input)
+    {
+        $this->attributes['category_id'] = $input ? $input : null;
+    }
+
+    /**
+     * Set to null if empty
+     * @param $input
+     */
     public function setOrganisationIdAttribute($input)
     {
         $this->attributes['organisation_id'] = $input ? $input : null;
@@ -130,9 +139,9 @@ class Document extends Model implements HasMedia
      * Set to null if empty
      * @param $input
      */
-    public function setCategoryIdAttribute($input)
+    public function setDepartmentIdAttribute($input)
     {
-        $this->attributes['category_id'] = $input ? $input : null;
+        $this->attributes['department_id'] = $input ? $input : null;
     }
 
     /**
@@ -144,18 +153,24 @@ class Document extends Model implements HasMedia
         $this->attributes['changed_id'] = $input ? $input : null;
     }
     
+    public function category()
+    {
+        return $this->belongsTo(Doccategory::class, 'category_id')->withTrashed();
+    }
+    
     public function organisation()
     {
         return $this->belongsTo(Organisation::class, 'organisation_id')->withTrashed();
     }
     
-    public function category()
+    public function department()
     {
-        return $this->belongsTo(Doccategory::class, 'category_id')->withTrashed();
+        return $this->belongsTo(Department::class, 'department_id')->withTrashed();
     }
     
     public function changed()
     {
         return $this->belongsTo(Document::class, 'changed_id')->withTrashed();
     }
+    
 }

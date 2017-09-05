@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CourtDecision;
-use App\Appeal;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCourtDecisionsRequest;
@@ -16,14 +14,16 @@ class CourtDecisionsController extends Controller
     /**
      * Display a listing of CourtDecision.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         if (! Gate::allows('court_decision_access')) {
             return abort(401);
         }
-        $court_decisions = CourtDecision::all();
+
+
+                $court_decisions = CourtDecision::all();
 
         return view('admin.court_decisions.index', compact('court_decisions'));
     }
@@ -31,7 +31,7 @@ class CourtDecisionsController extends Controller
     /**
      * Show the form for creating new CourtDecision.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -44,8 +44,8 @@ class CourtDecisionsController extends Controller
     /**
      * Store a newly created CourtDecision in storage.
      *
-     * @param  StoreCourtDecisionsRequest  $request
-     * @return Response
+     * @param  \App\Http\Requests\StoreCourtDecisionsRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreCourtDecisionsRequest $request)
     {
@@ -54,14 +54,17 @@ class CourtDecisionsController extends Controller
         }
         $court_decision = CourtDecision::create($request->all());
 
+
+
         return redirect()->route('admin.court_decisions.index');
     }
+
 
     /**
      * Show the form for editing CourtDecision.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -76,9 +79,9 @@ class CourtDecisionsController extends Controller
     /**
      * Update CourtDecision in storage.
      *
-     * @param  UpdateCourtDecisionsRequest  $request
+     * @param  \App\Http\Requests\UpdateCourtDecisionsRequest  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateCourtDecisionsRequest $request, $id)
     {
@@ -88,32 +91,36 @@ class CourtDecisionsController extends Controller
         $court_decision = CourtDecision::findOrFail($id);
         $court_decision->update($request->all());
 
+
+
         return redirect()->route('admin.court_decisions.index');
     }
+
 
     /**
      * Display CourtDecision.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         if (! Gate::allows('court_decision_view')) {
             return abort(401);
         }
-        $appeals = Appeal::where('court_decision_id', $id)->get();
+        $appeals = \App\Appeal::where('court_decision_id', $id)->get();
 
         $court_decision = CourtDecision::findOrFail($id);
 
         return view('admin.court_decisions.show', compact('court_decision', 'appeals'));
     }
 
+
     /**
      * Remove CourtDecision from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -144,4 +151,5 @@ class CourtDecisionsController extends Controller
             }
         }
     }
+
 }

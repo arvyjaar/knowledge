@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 class SpatieMediaController extends Controller
 {
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {

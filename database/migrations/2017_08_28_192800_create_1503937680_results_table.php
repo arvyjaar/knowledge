@@ -12,12 +12,13 @@ class Create1503937680ResultsTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('results')) {
+        if(! Schema::hasTable('results')) {
             Schema::create('results', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('title');
                 
                 $table->timestamps();
+                
             });
         }
     }

@@ -13,10 +13,12 @@ class Update1503940753AppealsTable extends Migration
     public function up()
     {
         Schema::table('appeals', function (Blueprint $table) {
-            if (Schema::hasColumn('appeals', 'court_decision')) {
+            if(Schema::hasColumn('appeals', 'court_decision')) {
                 $table->dropColumn('court_decision');
             }
+            
         });
+
     }
 
     /**
@@ -27,7 +29,9 @@ class Update1503940753AppealsTable extends Migration
     public function down()
     {
         Schema::table('appeals', function (Blueprint $table) {
-            $table->string('court_decision')->nullable();
+                        $table->string('court_decision')->nullable();
+                
         });
+
     }
 }

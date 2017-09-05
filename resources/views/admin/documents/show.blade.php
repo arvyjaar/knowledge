@@ -21,6 +21,10 @@
                             <td field-key='title'>{!! $document->title !!}</td>
                         </tr>
                         <tr>
+                            <th>@lang('quickadmin.document.fields.description')</th>
+                            <td field-key='description'>{!! $document->description !!}</td>
+                        </tr>
+                        <tr>
                             <th>@lang('quickadmin.document.fields.signed')</th>
                             <td field-key='signed'>{{ $document->signed }}</td>
                         </tr>
@@ -33,20 +37,16 @@
                             <td field-key='valid_till'>{{ $document->valid_till }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.document.fields.organisation')</th>
-                            <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
-                        </tr>
-                        <tr>
                             <th>@lang('quickadmin.document.fields.category')</th>
                             <td field-key='category'>{{ $document->category->title or '' }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.document.fields.file')</th>
-                            <td field-key='file's> @foreach($document->getMedia('file') as $media)
-                                <p class="form-group">
-                                    <a href="{{ $media->getUrl() }}" target="_blank">{{ $media->name }} ({{ $media->size }} KB)</a>
-                                </p>
-                            @endforeach</td>
+                            <th>@lang('quickadmin.document.fields.organisation')</th>
+                            <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('quickadmin.document.fields.department')</th>
+                            <td field-key='department'>{{ $document->department->title or '' }}</td>
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.document.fields.changed')</th>
@@ -73,12 +73,13 @@
         <tr>
             <th>@lang('quickadmin.document.fields.nr')</th>
                         <th>@lang('quickadmin.document.fields.title')</th>
+                        <th>@lang('quickadmin.document.fields.description')</th>
                         <th>@lang('quickadmin.document.fields.signed')</th>
                         <th>@lang('quickadmin.document.fields.valid-from')</th>
                         <th>@lang('quickadmin.document.fields.valid-till')</th>
-                        <th>@lang('quickadmin.document.fields.organisation')</th>
                         <th>@lang('quickadmin.document.fields.category')</th>
-                        <th>@lang('quickadmin.document.fields.file')</th>
+                        <th>@lang('quickadmin.document.fields.organisation')</th>
+                        <th>@lang('quickadmin.document.fields.department')</th>
                         <th>@lang('quickadmin.document.fields.changed')</th>
                         <th>@lang('quickadmin.document.fields.title')</th>
                         @if( request('show_deleted') == 1 )
@@ -95,12 +96,13 @@
                 <tr data-entry-id="{{ $document->id }}">
                     <td field-key='nr'>{{ $document->nr }}</td>
                                 <td field-key='title'>{!! $document->title !!}</td>
+                                <td field-key='description'>{!! $document->description !!}</td>
                                 <td field-key='signed'>{{ $document->signed }}</td>
                                 <td field-key='valid_from'>{{ $document->valid_from }}</td>
                                 <td field-key='valid_till'>{{ $document->valid_till }}</td>
-                                <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
                                 <td field-key='category'>{{ $document->category->title or '' }}</td>
-                                <td field-key='file'>@if($document->file)<a href="{{ asset(env('UPLOAD_PATH').'/' . $document->file) }}" target="_blank">Download file</a>@endif</td>
+                                <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
+                                <td field-key='department'>{{ $document->department->title or '' }}</td>
                                 <td field-key='changed'>{{ $document->changed->nr or '' }}</td>
 <td field-key='title'>{!! isset($document->changed) ? $document->changed->title : '' !!}</td>
                                 @if( request('show_deleted') == 1 )
@@ -147,7 +149,7 @@
             @endforeach
         @else
             <tr>
-                <td colspan="14">@lang('quickadmin.qa_no_entries_in_table')</td>
+                <td colspan="15">@lang('quickadmin.qa_no_entries_in_table')</td>
             </tr>
         @endif
     </tbody>

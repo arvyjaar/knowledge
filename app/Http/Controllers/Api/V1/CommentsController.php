@@ -28,6 +28,7 @@ class CommentsController extends Controller
         $request = $this->saveFiles($request);
         $comment = Comment::findOrFail($id);
         $comment->update($request->all());
+        
 
         return $comment;
     }
@@ -36,6 +37,7 @@ class CommentsController extends Controller
     {
         $request = $this->saveFiles($request);
         $comment = Comment::create($request->all());
+        
 
         return $comment;
     }

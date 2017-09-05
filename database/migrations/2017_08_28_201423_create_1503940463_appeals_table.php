@@ -12,7 +12,7 @@ class Create1503940463AppealsTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('appeals')) {
+        if(! Schema::hasTable('appeals')) {
             Schema::create('appeals', function (Blueprint $table) {
                 $table->increments('id');
                 $table->text('description');

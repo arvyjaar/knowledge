@@ -12,7 +12,7 @@ class Create1504027777CategoriesTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('categories')) {
+        if(! Schema::hasTable('categories')) {
             Schema::create('categories', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('category');

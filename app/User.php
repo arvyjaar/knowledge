@@ -3,6 +3,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\ResetPassword;
 use Hash;
 
 /**
@@ -27,9 +28,8 @@ class User extends Authenticatable
      */
     public function setPasswordAttribute($input)
     {
-        if ($input) {
+        if ($input)
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
-        }
     }
     
 
@@ -45,5 +45,13 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+    
+    
+    
+
+    public function sendPasswordResetNotification($token)
+    {
+       $this->notify(new ResetPassword($token));
     }
 }

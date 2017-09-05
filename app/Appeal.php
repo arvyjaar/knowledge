@@ -75,4 +75,5 @@ class Appeal extends Model
     {
         return $this->belongsTo(CourtDecision::class, 'court_decision_id');
     }
+    
 }

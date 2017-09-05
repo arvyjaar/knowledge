@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Organisation;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreOrganisationsRequest;
 use App\Http\Requests\Admin\UpdateOrganisationsRequest;
-use Yajra\Datatables\Datatables;
 
 class OrganisationsController extends Controller
 {
@@ -24,37 +22,17 @@ class OrganisationsController extends Controller
             return abort(401);
         }
 
-        if (request()->ajax()) {
-            $query = Organisation::query();
-            $template = 'actionsTemplate';
-            if (request('show_deleted') == 1) {
-                if (! Gate::allows('organisation_delete')) {
-                    return abort(401);
-                }
-                $query->onlyTrashed();
-                $template = 'restoreTemplate';
+
+        if (request('show_deleted') == 1) {
+            if (! Gate::allows('organisation_delete')) {
+                return abort(401);
             }
-            $table = Datatables::of($query);
-
-            $table->setRowAttr([
-                'data-entry-id' => '{{$id}}',
-            ]);
-            $table->addColumn('massDelete', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-            $table->editColumn('actions', function ($row) use ($template) {
-                $gateKey  = 'organisation_';
-                $routeKey = 'admin.organisations';
-
-                return view($template, compact('row', 'gateKey', 'routeKey'));
-            });
-            $table->editColumn('title', function ($row) {
-                return $row->title ? $row->title : '';
-            });
-
-            return $table->make(true);
+            $organisations = Organisation::onlyTrashed()->get();
+        } else {
+            $organisations = Organisation::all();
         }
 
-        return view('admin.organisations.index');
+        return view('admin.organisations.index', compact('organisations'));
     }
 
     /**
@@ -73,7 +51,7 @@ class OrganisationsController extends Controller
     /**
      * Store a newly created Organisation in storage.
      *
-     * @param  StoreOrganisationsRequest  $request
+     * @param  \App\Http\Requests\StoreOrganisationsRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreOrganisationsRequest $request)
@@ -83,8 +61,11 @@ class OrganisationsController extends Controller
         }
         $organisation = Organisation::create($request->all());
 
+
+
         return redirect()->route('admin.organisations.index');
     }
+
 
     /**
      * Show the form for editing Organisation.
@@ -105,7 +86,7 @@ class OrganisationsController extends Controller
     /**
      * Update Organisation in storage.
      *
-     * @param  UpdateOrganisationsRequest  $request
+     * @param  \App\Http\Requests\UpdateOrganisationsRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -117,8 +98,11 @@ class OrganisationsController extends Controller
         $organisation = Organisation::findOrFail($id);
         $organisation->update($request->all());
 
+
+
         return redirect()->route('admin.organisations.index');
     }
+
 
     /**
      * Display Organisation.
@@ -137,6 +121,7 @@ class OrganisationsController extends Controller
 
         return view('admin.organisations.show', compact('organisation', 'documents'));
     }
+
 
     /**
      * Remove Organisation from storage.
@@ -174,11 +159,12 @@ class OrganisationsController extends Controller
         }
     }
 
+
     /**
      * Restore Organisation from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
@@ -195,7 +181,7 @@ class OrganisationsController extends Controller
      * Permanently delete Organisation from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {
