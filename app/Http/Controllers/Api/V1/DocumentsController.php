@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDocumentsRequest;
 use App\Http\Requests\Admin\UpdateDocumentsRequest;
+use App\Http\Controllers\Traits\FileUploadTrait;
 
 class DocumentsController extends Controller
 {
+    use FileUploadTrait;
+
     public function index()
     {
         return Document::all();
@@ -22,6 +25,7 @@ class DocumentsController extends Controller
 
     public function update(UpdateDocumentsRequest $request, $id)
     {
+        $request = $this->saveFiles($request);
         $document = Document::findOrFail($id);
         $document->update($request->all());
         
@@ -31,6 +35,7 @@ class DocumentsController extends Controller
 
     public function store(StoreDocumentsRequest $request)
     {
+        $request = $this->saveFiles($request);
         $document = Document::create($request->all());
         
 

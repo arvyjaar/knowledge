@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDocumentsRequest;
 use App\Http\Requests\Admin\UpdateDocumentsRequest;
+use App\Http\Controllers\Traits\FileUploadTrait;
 
 class DocumentsController extends Controller
 {
+    use FileUploadTrait;
+
     /**
      * Display a listing of Document.
      *
@@ -65,9 +68,16 @@ class DocumentsController extends Controller
         if (! Gate::allows('document_create')) {
             return abort(401);
         }
+        $request = $this->saveFiles($request);
         $document = Document::create($request->all());
 
 
+        foreach ($request->input('file_id', []) as $index => $id) {
+            $model          = config('laravel-medialibrary.media_model');
+            $file           = $model::find($id);
+            $file->model_id = $document->id;
+            $file->save();
+        }
 
         return redirect()->route('admin.documents.index');
     }
@@ -107,10 +117,20 @@ class DocumentsController extends Controller
         if (! Gate::allows('document_edit')) {
             return abort(401);
         }
+        $request = $this->saveFiles($request);
         $document = Document::findOrFail($id);
         $document->update($request->all());
 
 
+        $media = [];
+        foreach ($request->input('file_id', []) as $index => $id) {
+            $model          = config('laravel-medialibrary.media_model');
+            $file           = $model::find($id);
+            $file->model_id = $document->id;
+            $file->save();
+            $media[] = $file;
+        }
+        $document->updateMedia($media, 'file');
 
         return redirect()->route('admin.documents.index');
     }
@@ -151,7 +171,7 @@ class DocumentsController extends Controller
             return abort(401);
         }
         $document = Document::findOrFail($id);
-        $document->delete();
+        $document->deletePreservingMedia();
 
         return redirect()->route('admin.documents.index');
     }
@@ -170,7 +190,7 @@ class DocumentsController extends Controller
             $entries = Document::whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
-                $entry->delete();
+                $entry->deletePreservingMedia();
             }
         }
     }

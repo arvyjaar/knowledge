@@ -4,6 +4,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 /**
  * Class Document
@@ -20,9 +22,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $department
  * @property string $changed
 */
-class Document extends Model
+class Document extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use SoftDeletes, HasMediaTrait;
 
     protected $fillable = ['nr', 'title', 'description', 'signed', 'valid_from', 'valid_till', 'category_id', 'organisation_id', 'department_id', 'changed_id'];
     

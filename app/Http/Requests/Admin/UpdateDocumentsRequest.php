@@ -23,6 +23,7 @@ class UpdateDocumentsRequest extends FormRequest
     public function rules()
     {
         return [
+            
             'nr' => 'required',
             'title' => 'required',
             'signed' => 'required|date_format:'.config('app.date_format'),

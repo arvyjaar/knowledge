@@ -19,7 +19,7 @@ return [
 		'documents' => [		'title' => 'Documents',		'fields' => [		],	],
 		'doccategory' => [		'title' => 'Doccategory',		'fields' => [			'title' => 'Title*',			'description' => 'Description',		],	],
 		'organisation' => [		'title' => 'Organisation',		'fields' => [			'title' => 'Title*',		],	],
-		'document' => [		'title' => 'Document',		'fields' => [			'nr' => 'Nr.*',			'title' => 'Title*',			'description' => 'Description',			'signed' => 'Signed*',			'valid-from' => 'Valid from*',			'valid-till' => 'Valid till',			'category' => 'Category*',			'organisation' => 'Organisation*',			'department' => 'Department',			'changed' => 'Changed Doc.',		],	],
+		'document' => [		'title' => 'Document',		'fields' => [			'nr' => 'Nr.*',			'title' => 'Title*',			'description' => 'Description',			'signed' => 'Signed*',			'valid-from' => 'Valid from*',			'valid-till' => 'Valid till',			'category' => 'Category*',			'organisation' => 'Organisation*',			'department' => 'Department',			'changed' => 'Changed Doc.',			'file' => 'File',		],	],
 	'qa_save' => 'Išsaugoti',
 	'qa_update' => 'Atnaujinti',
 	'qa_list' => 'Sąrašas',
@@ -34,5 +34,13 @@ return [
 	'qa_back_to_list' => 'Grįžti į sąrašą',
 	'qa_dashboard' => 'Pagrindinis',
 	'qa_delete' => 'Trinti',
+	'qa_restore' => 'Atstatyti',
+	'qa_permadel' => 'Ištrinti galutinai',
+	'qa_all' => 'Rodyti viską',
+	'qa_trash' => 'Rodyti ištrintus',
+	'qa_delete_selected' => 'Trinti pažymėtus',
+	'qa_category' => 'Kategorija',
+	'qa_categories' => 'Kategorijos',
+	'qa_sample_category' => 'Pavyzdinė kategorija',
 	'quickadmin_title' => 'Appeals',
 ];

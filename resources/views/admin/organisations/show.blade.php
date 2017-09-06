@@ -41,7 +41,7 @@
                         <th>@lang('quickadmin.document.fields.organisation')</th>
                         <th>@lang('quickadmin.document.fields.department')</th>
                         <th>@lang('quickadmin.document.fields.changed')</th>
-                        <th>@lang('quickadmin.document.fields.title')</th>
+                        <th>@lang('quickadmin.document.fields.file')</th>
                         @if( request('show_deleted') == 1 )
                         <th>&nbsp;</th>
                         @else
@@ -64,7 +64,7 @@
                                 <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
                                 <td field-key='department'>{{ $document->department->title or '' }}</td>
                                 <td field-key='changed'>{{ $document->changed->nr or '' }}</td>
-<td field-key='title'>{!! isset($document->changed) ? $document->changed->title : '' !!}</td>
+                                <td field-key='file'>@if($document->file)<a href="{{ asset(env('UPLOAD_PATH').'/' . $document->file) }}" target="_blank">Download file</a>@endif</td>
                                 @if( request('show_deleted') == 1 )
                                 <td>
                                     @can('document_delete')
@@ -109,7 +109,7 @@
             @endforeach
         @else
             <tr>
-                <td colspan="15">@lang('quickadmin.qa_no_entries_in_table')</td>
+                <td colspan="16">@lang('quickadmin.qa_no_entries_in_table')</td>
             </tr>
         @endif
     </tbody>

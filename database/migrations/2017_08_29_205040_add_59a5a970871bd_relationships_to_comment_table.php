@@ -16,7 +16,7 @@ class Add59a5a970871bdRelationshipsToCommentTable extends Migration
             if (!Schema::hasColumn('comments', 'question_id')) {
                 $table->integer('question_id')->unsigned()->nullable();
                 $table->foreign('question_id', '69430_59a5a7a95d7d1')->references('id')->on('questions')->onDelete('cascade');
-            }
+                }
                 
         });
     }
