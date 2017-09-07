@@ -99,20 +99,26 @@
             @foreach ($documents as $document)
                 <tr data-entry-id="{{ $document->id }}">
                     <td field-key='nr'>{{ $document->nr }}</td>
-                                <td field-key='title'>{!! $document->title !!}</td>
-                                <td field-key='description'>{!! $document->description !!}</td>
-                                <td field-key='signed'>{{ $document->signed }}</td>
-                                <td field-key='valid_from'>{{ $document->valid_from }}</td>
-                                <td field-key='valid_till'>{{ $document->valid_till }}</td>
-                                <td field-key='category'>{{ $document->category->title or '' }}</td>
-                                <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
-                                <td field-key='department'>{{ $document->department->title or '' }}</td>
-                                <td field-key='changed'>{{ $document->changed->nr or '' }}</td>
-                                <td field-key='file'>@if($document->file)<a href="{{ asset(env('UPLOAD_PATH').'/' . $document->file) }}" target="_blank">Download file</a>@endif</td>
+                    <td field-key='title'>{!! $document->title !!}</td>
+                    <td field-key='description'>{!! $document->description !!}</td>
+                    <td field-key='signed'>{{ $document->signed }}</td>
+                    <td field-key='valid_from'>{{ $document->valid_from }}</td>
+                    <td field-key='valid_till'>{{ $document->valid_till }}</td>
+                    <td field-key='category'>{{ $document->category->title or '' }}</td>
+                    <td field-key='organisation'>{{ $document->organisation->title or '' }}</td>
+                    <td field-key='department'>{{ $document->department->title or '' }}</td>
+                    <td field-key='changed'>{{ $document->changed->nr or '' }}</td>
+                    <td>
+                    @foreach($document->getMedia('file') as $media)
+                        <p class="form-group">
+                            <a href="{{ $media->getUrl() }}" target="_blank">{{ $media->name }} ({{ $media->size }} KB)</a>
+                        </p>
+                    @endforeach
+                    </td>
                                 @if( request('show_deleted') == 1 )
-                                <td>
-                                    @can('document_delete')
-                                                                        {!! Form::open(array(
+                                <td>            
+                                @can('document_delete')
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'POST',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
@@ -139,13 +145,13 @@
                                     <a href="{{ route('admin.documents.edit',[$document->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
                                     @endcan
                                     @can('document_delete')
-{!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.documents.destroy', $document->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
+                                        {!! Form::open(array(
+                                            'style' => 'display: inline-block;',
+                                            'method' => 'DELETE',
+                                            'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                            'route' => ['admin.documents.destroy', $document->id])) !!}
+                                        {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                        {!! Form::close() !!}
                                     @endcan
                                 </td>
                                 @endif

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Document;
+use App\Doccategory;
+use App\Organisation;
+use App\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -49,10 +52,10 @@ class DocumentsController extends Controller
             return abort(401);
         }
         
-        $categories = \App\Doccategory::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $organisations = \App\Organisation::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $departments = \App\Department::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $changeds = \App\Document::get()->pluck('nr', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $categories = Doccategory::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $organisations = Organisation::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $departments = Department::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $changeds = Document::get()->pluck('dropdown_title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
 
         return view('admin.documents.create', compact('categories', 'organisations', 'departments', 'changeds'));
     }
@@ -60,8 +63,8 @@ class DocumentsController extends Controller
     /**
      * Store a newly created Document in storage.
      *
-     * @param  \App\Http\Requests\StoreDocumentsRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreDocumentsRequest  $request
+     * @return Response
      */
     public function store(StoreDocumentsRequest $request)
     {
@@ -95,11 +98,10 @@ class DocumentsController extends Controller
             return abort(401);
         }
         
-        $categories = \App\Doccategory::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $organisations = \App\Organisation::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $departments = \App\Department::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $changeds = \App\Document::get()->pluck('nr', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-
+        $categories = Doccategory::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $organisations = Organisation::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $departments = Department::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $changeds = Document::get()->pluck('dropdown_title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
         $document = Document::findOrFail($id);
 
         return view('admin.documents.edit', compact('document', 'categories', 'organisations', 'departments', 'changeds'));

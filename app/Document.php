@@ -147,6 +147,14 @@ class Document extends Model implements HasMedia
     }
 
     /**
+     * Get 'nr' and 'title' in one field for dropdown list
+     */
+    public function getDropdownTitleAttribute()
+    {
+        return $this->nr.' '.$this->title;
+    }
+
+    /**
      * Set to null if empty
      * @param $input
      */
